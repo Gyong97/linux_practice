@@ -34,35 +34,41 @@ void add_list_n(int n, struct list_head *my_list){ // n time insert
 	unsigned long long add_list_time = 0;
     unsigned long long add_list_count = 0;
     struct timespec spclock[2];
-	getnstimeofday(&spclock[0]);
 	int i;
 	for (i = 0; i < n; i++){
+		getnstimeofday(&spclock[0]);
+	
 		struct my_node *new = kmalloc(sizeof(struct my_node), GFP_KERNEL);
 		new->data = i;
 		list_add(&new->entry, my_list);
-	}
-	getnstimeofday(&spclock[1]);
+	
+		getnstimeofday(&spclock[1]);
+	
 
-    calclock3(spclock, &add_list_time, &add_list_count);
-	printk("%d insertion time : %llu\n", n, add_list_time);
+    	calclock3(spclock, &add_list_time, &add_list_count);
+	}
+	printk("%d insertion time : %llu count : %llu\n", n, add_list_time, add_list_count);
 }
 void search_mid_value(int n, struct list_head *my_list){ // search mid value from list of n
 	unsigned long long add_list_time = 0;
     unsigned long long add_list_count = 0;
     struct timespec spclock[2];
 	printk("%d list Search\n", n);
-	getnstimeofday(&spclock[0]);
+	
 	struct my_node *current_node; /* This will point on the actual data structures during the iteration */
 	int value = (int)n/2;
 	list_for_each_entry(current_node, my_list, entry){
+		getnstimeofday(&spclock[0]);
 		if(current_node->data == value){
 			printk("find value : %d\n", current_node->data);
+			break;
 		}		
-	}
-	getnstimeofday(&spclock[1]);
+		getnstimeofday(&spclock[1]);
 
-    calclock3(spclock, &add_list_time, &add_list_count);
-	printk("%d (Mid Value)Search time : %llu\n", n, add_list_time);
+    	calclock3(spclock, &add_list_time, &add_list_count);
+	}
+	
+	printk("%d (Mid Value)Search time : %llu count : %llu\n", n, add_list_time, add_list_count);
 }
 
 void delete_list(int n , struct list_head *my_list){
@@ -70,18 +76,20 @@ void delete_list(int n , struct list_head *my_list){
     unsigned long long add_list_count = 0;
     struct timespec spclock[2];
 	printk("%d list Delete\n", n);
-	getnstimeofday(&spclock[0]);
+	
 	/* delete list element */
 	struct my_node *current_node; /* This will point on the actual data structures during the iteration */
 	struct my_node *tmp;
 	list_for_each_entry_safe(current_node, tmp, my_list, entry){
+			getnstimeofday(&spclock[0]);
 			list_del(&current_node->entry);
 			kfree(current_node);
-	}
-	getnstimeofday(&spclock[1]);
+			getnstimeofday(&spclock[1]);
 
-    calclock3(spclock, &add_list_time, &add_list_count);
-	printk("%d Delete time : %llu\n", n, add_list_time);
+    		calclock3(spclock, &add_list_time, &add_list_count);
+	}
+	
+	printk("%d Delete time : %llu count : %llu\n", n, add_list_time, add_list_count);
 }
 
 void struct_example(void){
