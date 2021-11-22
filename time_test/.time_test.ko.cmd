@@ -1,0 +1,1 @@
+cmd_/home/jiyong/practice/test_repo/time_test/time_test.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/jiyong/practice/test_repo/time_test/time_test.ko /home/jiyong/practice/test_repo/time_test/time_test.o /home/jiyong/practice/test_repo/time_test/time_test.mod.o;  true
